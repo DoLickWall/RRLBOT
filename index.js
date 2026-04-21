@@ -132,11 +132,13 @@ client.on('interactionCreate', async interaction => {
       }
     ]
 
-    await interaction.reply({
-  content: ping ? `<@&${PING_ROLE_ID}>` : undefined,
+    await interaction.deferReply({ ephemeral: true })
+await interaction.channel.send({
+  content: ping ? `<@&${PING_ROLE_ID}>` : '',
   flags: MessageFlags.IsComponentsV2,
   components
 })
+await interaction.editReply({ content: 'Update posted!' })
   }
 })
 
