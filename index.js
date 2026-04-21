@@ -389,7 +389,7 @@ client.on('messageCreate', async message => {
             },
             {
               type: ComponentType.TextDisplay,
-              content: 'A announcement channel for the colunteer moderaters\nto sign up for this role go to: <#1492173839554318406> and see if the application is open!'
+              content: 'A announcement channel for the volunteer moderaters\nto sign up for this role go to: <#1492173839554318406> and see if the application is open!'
             },
             {
               type: ComponentType.Separator
