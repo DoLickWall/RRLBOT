@@ -303,6 +303,39 @@ client.on('messageCreate', async message => {
       ]
     })
   }
+  if (message.content === '!formlab') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            {
+              type: ComponentType.Section,
+              components: [
+                {
+                  type: ComponentType.TextDisplay,
+                  content: '# 📋 Staff Application'
+                },
+                {
+                  type: ComponentType.TextDisplay,
+                  content: 'If you want to be apart of <@&1491683819923701790>, fill out this form.\nStaff will get to you shortly.'
+                }
+              ],
+              accessory: {
+                type: ComponentType.Button,
+                label: 'Apply Now',
+                style: ButtonStyle.Link,
+                url: 'https://forms.gle/GLV1hYqXK4iPd5Kz8',
+                emoji: { name: '📋' }
+              }
+            }
+          ]
+        }
+      ]
+    })
+  }
 })
 
 client.login(process.env.DISCORD_TOKEN)
