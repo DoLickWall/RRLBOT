@@ -1,4 +1,5 @@
-const { Client, GatewayIntentBits, ComponentType, ButtonStyle, MessageFlags } = require('discord.js')
+const { Client, GatewayIntentBits, ComponentType, ButtonStyle, MessageFlags, REST, Routes, SlashCommandBuilder } = require('discord.js')
+require('dotenv').config()
 
 const client = new Client({
   intents: [
@@ -10,39 +11,133 @@ const client = new Client({
 })
 
 const STAFF_ROLE_ID = '1491683215549923459'
+const DEV_ROLE_ID = '1491683819923701790'
+const PING_ROLE_ID = '1495670066203590796'
 
 function hasStaffRole(message) {
-  return message.member.roles.cache.has(STAFF_ROLE_ID)
+  return message.member.roles.cache.has(STAFF_ROLE_ID) || message.member.roles.cache.has(DEV_ROLE_ID)
 }
 
-client.once('clientReady', () => {
+const commands = [
+  new SlashCommandBuilder()
+    .setName('update')
+    .setDescription('Post a game update')
+    .addStringOption(option =>
+      option.setName('title')
+        .setDescription('Title of the update')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
+      option.setName('desc')
+        .setDescription('Description of the update')
+        .setRequired(true)
+    )
+    .addBooleanOption(option =>
+      option.setName('ping')
+        .setDescription('Ping update role?')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
+      option.setName('extra')
+        .setDescription('Any extra info (optional)')
+        .setRequired(false)
+    )
+].map(command => command.toJSON())
+
+client.once('clientReady', async () => {
   console.log(`Logged in as ${client.user.tag}`)
+
+  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN)
+  try {
+    console.log('Registering slash commands...')
+    await rest.put(
+      Routes.applicationCommands(client.user.id),
+      { body: commands }
+    )
+    console.log('Slash commands registered!')
+  } catch (error) {
+    console.error('Failed to register commands:', error)
+  }
 })
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isButton()) return
+  if (interaction.isButton()) {
+    const roleMap = {
+      role_tag: '1495624606730682428',
+      role_pings: '1495670066203590796'
+    }
 
-  const roleMap = {
-    role_tag: '1495624606730682428',
-    role_pings: '1495670066203590796'
+    const roleId = roleMap[interaction.customId]
+    if (!roleId) return
+
+    const member = interaction.member
+    const role = interaction.guild.roles.cache.get(roleId)
+
+    if (!role) {
+      return interaction.reply({ content: 'Role not found.', ephemeral: true })
+    }
+
+    if (member.roles.cache.has(roleId)) {
+      await member.roles.remove(role)
+      await interaction.reply({ content: `Removed <@&${roleId}>.`, ephemeral: true })
+    } else {
+      await member.roles.add(role)
+      await interaction.reply({ content: `Added <@&${roleId}>!`, ephemeral: true })
+    }
   }
 
-  const roleId = roleMap[interaction.customId]
-  if (!roleId) return
+  if (interaction.isChatInputCommand() && interaction.commandName === 'update') {
+    const member = interaction.member
+    const hasPerms = member.roles.cache.has(STAFF_ROLE_ID) || member.roles.cache.has(DEV_ROLE_ID)
 
-  const member = interaction.member
-  const role = interaction.guild.roles.cache.get(roleId)
+    if (!hasPerms) {
+      return interaction.reply({ content: 'You do not have permission to post updates.', ephemeral: true })
+    }
 
-  if (!role) {
-    return interaction.reply({ content: 'Role not found.', ephemeral: true })
-  }
+    const title = interaction.options.getString('title')
+    const desc = interaction.options.getString('desc')
+    const ping = interaction.options.getBoolean('ping')
+    const extra = interaction.options.getString('extra')
 
-  if (member.roles.cache.has(roleId)) {
-    await member.roles.remove(role)
-    await interaction.reply({ content: `Removed <@&${roleId}>.`, ephemeral: true })
-  } else {
-    await member.roles.add(role)
-    await interaction.reply({ content: `Added <@&${roleId}>!`, ephemeral: true })
+    const components = [
+      {
+        type: ComponentType.Container,
+        components: [
+          {
+            type: ComponentType.TextDisplay,
+            content: `# 📢 ${title}${ping ? ` — <@&${PING_ROLE_ID}>` : ''}`
+          },
+          {
+            type: ComponentType.Separator
+          },
+          {
+            type: ComponentType.TextDisplay,
+            content: desc
+          },
+          ...(extra ? [
+            { type: ComponentType.Separator },
+            {
+              type: ComponentType.TextDisplay,
+              content: `### 📝 Extra Info\n${extra}`
+            }
+          ] : []),
+          {
+            type: ComponentType.Separator
+          },
+          {
+            type: ComponentType.TextDisplay,
+            content: `*Posted by <@${interaction.user.id}> • <t:${Math.floor(Date.now() / 1000)}:F>*`
+          }
+        ]
+      }
+    ]
+
+    await interaction.reply({ content: 'Update posted!', ephemeral: true })
+    await interaction.channel.send({
+      content: ping ? `<@&${PING_ROLE_ID}>` : '',
+      flags: MessageFlags.IsComponentsV2,
+      components
+    })
   }
 })
 
@@ -50,7 +145,7 @@ client.on('messageCreate', async message => {
   if (message.author.bot) return
 
   if (message.content === '!sendembed') {
-    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.', ephemeral: true })
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
       components: [
@@ -116,7 +211,7 @@ client.on('messageCreate', async message => {
   }
 
   if (message.content === '!sendcontrib') {
-    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.', ephemeral: true })
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
       components: [
@@ -145,7 +240,7 @@ client.on('messageCreate', async message => {
   }
 
   if (message.content === '!roleing') {
-    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.', ephemeral: true })
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
       components: [
@@ -172,7 +267,7 @@ client.on('messageCreate', async message => {
   }
 
   if (message.content === '!sendrules') {
-    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.', ephemeral: true })
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
       components: [
@@ -210,5 +305,4 @@ client.on('messageCreate', async message => {
   }
 })
 
-require('dotenv').config()
 client.login(process.env.DISCORD_TOKEN)
