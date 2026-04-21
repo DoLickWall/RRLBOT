@@ -360,6 +360,37 @@ client.on('messageCreate', async message => {
       ]
     })
   }
+  if (message.content === '!vmodinfo') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            {
+              type: ComponentType.TextDisplay,
+              content: '# 🛡️ Volunteer Moderator Announcements'
+            },
+            {
+              type: ComponentType.Separator
+            },
+            {
+              type: ComponentType.TextDisplay,
+              content: 'Any choosings of the volunteer moderators inside RecRoomLegacy will be shown in this channel\n to sign up for this role go to: <#1492173839554318406> and see if the application is open!'
+            },
+            {
+              type: ComponentType.Separator
+            },
+            {
+              type: ComponentType.TextDisplay,
+              content: 'For any other questions about this moderator role, please @ping a staff member.'
+            }
+          ]
+        }
+      ]
+    })
+  }
 })
 
 client.login(process.env.DISCORD_TOKEN)
