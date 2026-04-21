@@ -316,7 +316,7 @@ client.on('messageCreate', async message => {
               components: [
                 {
                   type: ComponentType.TextDisplay,
-                  content: '# 📋 Staff Application'
+                  content: '# 🧪 Research Lab Application'
                 },
                 {
                   type: ComponentType.TextDisplay,
