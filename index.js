@@ -336,7 +336,7 @@ client.on('messageCreate', async message => {
       ]
     })
   }
-  if (message.content === '!formstaff') {
+  if (message.content === '!formmod') {
     if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
@@ -345,17 +345,15 @@ client.on('messageCreate', async message => {
           type: ComponentType.Container,
           components: [
             {
-              type: ComponentType.Section,
-              components: [
-                {
-                  type: ComponentType.TextDisplay,
-                  content: '# 🛡️ Volunteer Moderator Application [CLOSED]'
-                },
-                {
-                  type: ComponentType.TextDisplay,
-                  content: 'If you want to be apart of <@&1491683467917000795>, fill out this form.\nStaff will get to you shortly.'
-                }
-              ],
+              type: ComponentType.TextDisplay,
+              content: '# 🛡️ Volunteer Moderator Application [CLOSED]'
+            },
+            {
+              type: ComponentType.Separator
+            },
+            {
+              type: ComponentType.TextDisplay,
+              content: 'If you want to be apart of <@&1491683467917000795>, fill out this form.\nStaff will get to you shortly.'
             }
           ]
         }
