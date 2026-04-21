@@ -356,13 +356,6 @@ client.on('messageCreate', async message => {
                   content: 'If you want to be apart of <@&1491683467917000795>, fill out this form.\nStaff will get to you shortly.'
                 }
               ],
-              accessory: {
-                type: ComponentType.Button,
-                label: 'Apply Now',
-                style: ButtonStyle.Link,
-                url: '',
-                emoji: { name: '📋' }
-              }
             }
           ]
         }
