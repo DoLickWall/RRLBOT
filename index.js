@@ -389,14 +389,14 @@ client.on('messageCreate', async message => {
             },
             {
               type: ComponentType.TextDisplay,
-              content: 'Any choosings of the volunteer moderators inside RecRoomLegacy will be shown in this channel\n to sign up for this role go to: <#1492173839554318406> and see if the application is open!'
+              content: 'A announcement channel for the colunteer moderaters\nto sign up for this role go to: <#1492173839554318406> and see if the application is open!'
             },
             {
               type: ComponentType.Separator
             },
             {
               type: ComponentType.TextDisplay,
-              content: 'For any other questions about this moderator role, please @ping a staff member.'
+              content: 'For any other questions about rrl, feel free to @ping a staff member.'
             }
           ]
         }
