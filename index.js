@@ -60,7 +60,8 @@ client.on('interactionCreate', async interaction => {
   if (interaction.isButton()) {
     const roleMap = {
       role_tag: '1495624606730682428',
-      role_pings: '1495670066203590796'
+      role_pings: '1495670066203590796',
+      verify_member: '1491684391066537984'
     }
 
     const roleId = roleMap[interaction.customId]
@@ -71,12 +72,23 @@ client.on('interactionCreate', async interaction => {
 
     if (!role) return interaction.reply({ content: 'Role not found.', ephemeral: true })
 
-    if (member.roles.cache.has(roleId)) {
-      await member.roles.remove(role)
-      await interaction.reply({ content: `Removed <@&${roleId}>.`, ephemeral: true })
-    } else {
+      if (interaction.customId === 'verify_member') {
+      if (member.roles.cache.has(roleId)) {
+        return interaction.reply({ content: 'You are already verified!', ephemeral: true })
+      }
+
+      const accountAge = Date.now() - interaction.user.createdTimestamp
+      const oneDay = 24 * 60 * 60 * 1000
+
+      if (accountAge < oneDay) {
+        return interaction.reply({
+          content: '❌ Your Discord account must be older than 1 day to verify. Please try again later.',
+          ephemeral: true
+        })
+      }
+
       await member.roles.add(role)
-      await interaction.reply({ content: `Added <@&${roleId}>!`, ephemeral: true })
+      return interaction.reply({ content: '✅ You have been verified! Welcome to the server.', ephemeral: true })
     }
     return
   }
@@ -385,6 +397,42 @@ client.on('messageCreate', async message => {
             {
               type: ComponentType.TextDisplay,
               content: 'For any other questions about this moderator role, please @ping a staff member.'
+            }
+          ]
+        }
+      ]
+    })
+  }
+  if (message.content === '!verifypanel') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            {
+              type: ComponentType.TextDisplay,
+              content: '# ✅ Verification'
+            },
+            {
+              type: ComponentType.Separator
+            },
+            {
+              type: ComponentType.TextDisplay,
+              content: 'Welcome to the server! Click the button below to verify yourself and gain access to the rest of the server.'
+            },
+            {
+              type: ComponentType.ActionRow,
+              components: [
+                {
+                  type: ComponentType.Button,
+                  label: 'Verify Me',
+                  style: ButtonStyle.Success,
+                  custom_id: 'verify_member',
+                  emoji: { name: '✅' }
+                }
+              ]
             }
           ]
         }
