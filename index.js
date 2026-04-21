@@ -46,14 +46,10 @@ const commands = [
 
 client.once('clientReady', async () => {
   console.log(`Logged in as ${client.user.tag}`)
-
   const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN)
   try {
     console.log('Registering slash commands...')
-    await rest.put(
-      Routes.applicationCommands(client.user.id),
-      { body: commands }
-    )
+    await rest.put(Routes.applicationCommands(client.user.id), { body: commands })
     console.log('Slash commands registered!')
   } catch (error) {
     console.error('Failed to register commands:', error)
@@ -73,9 +69,7 @@ client.on('interactionCreate', async interaction => {
     const member = interaction.member
     const role = interaction.guild.roles.cache.get(roleId)
 
-    if (!role) {
-      return interaction.reply({ content: 'Role not found.', ephemeral: true })
-    }
+    if (!role) return interaction.reply({ content: 'Role not found.', ephemeral: true })
 
     if (member.roles.cache.has(roleId)) {
       await member.roles.remove(role)
@@ -84,6 +78,7 @@ client.on('interactionCreate', async interaction => {
       await member.roles.add(role)
       await interaction.reply({ content: `Added <@&${roleId}>!`, ephemeral: true })
     }
+    return
   }
 
   if (interaction.isChatInputCommand() && interaction.commandName === 'update') {
@@ -99,45 +94,50 @@ client.on('interactionCreate', async interaction => {
     const ping = interaction.options.getBoolean('ping')
     const extra = interaction.options.getString('extra')
 
-    const components = [
+    const embedComponents = [
       {
-        type: ComponentType.Container,
-        components: [
-          {
-            type: ComponentType.TextDisplay,
-            content: `# 📢 ${title}${ping ? ` — <@&${PING_ROLE_ID}>` : ''}`
-          },
-          {
-            type: ComponentType.Separator
-          },
-          {
-            type: ComponentType.TextDisplay,
-            content: desc
-          },
-          ...(extra ? [
-            { type: ComponentType.Separator },
-            {
-              type: ComponentType.TextDisplay,
-              content: `### 📝 Extra Info\n${extra}`
-            }
-          ] : []),
-          {
-            type: ComponentType.Separator
-          },
-          {
-            type: ComponentType.TextDisplay,
-            content: `*Posted by <@${interaction.user.id}> • <t:${Math.floor(Date.now() / 1000)}:F>*`
-          }
-        ]
+        type: ComponentType.TextDisplay,
+        content: `# 📢 ${title}`
+      },
+      {
+        type: ComponentType.Separator
+      },
+      {
+        type: ComponentType.TextDisplay,
+        content: desc
       }
     ]
 
-    await interaction.reply({ content: 'Update posted!', ephemeral: true })
-await interaction.channel.send({
-  content: ping ? `<@&${PING_ROLE_ID}>` : '',
-  flags: MessageFlags.IsComponentsV2,
-  components
-})
+    if (extra) {
+      embedComponents.push({ type: ComponentType.Separator })
+      embedComponents.push({
+        type: ComponentType.TextDisplay,
+        content: `### 📝 Extra Info\n${extra}`
+      })
+    }
+
+    embedComponents.push({ type: ComponentType.Separator })
+    embedComponents.push({
+      type: ComponentType.TextDisplay,
+      content: `*Posted by <@${interaction.user.id}> • <t:${Math.floor(Date.now() / 1000)}:F>*`
+    })
+
+    try {
+      await interaction.reply({ content: '✅ Update posted!', ephemeral: true })
+
+      await interaction.channel.send({
+        content: ping ? `<@&${PING_ROLE_ID}>` : undefined,
+        flags: MessageFlags.IsComponentsV2,
+        components: [
+          {
+            type: ComponentType.Container,
+            components: embedComponents
+          }
+        ]
+      })
+    } catch (err) {
+      console.error('Failed to post update:', err)
+    }
   }
 })
 
