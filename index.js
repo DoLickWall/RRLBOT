@@ -72,7 +72,7 @@ client.on('interactionCreate', async interaction => {
 
     if (!role) return interaction.reply({ content: 'Role not found.', ephemeral: true })
 
-      if (interaction.customId === 'verify_member') {
+    if (interaction.customId === 'verify_member') {
       if (member.roles.cache.has(roleId)) {
         return interaction.reply({ content: 'You are already verified!', ephemeral: true })
       }
@@ -90,7 +90,14 @@ client.on('interactionCreate', async interaction => {
       await member.roles.add(role)
       return interaction.reply({ content: '✅ You have been verified! Welcome to the server.', ephemeral: true })
     }
-    return
+
+    if (member.roles.cache.has(roleId)) {
+      await member.roles.remove(role)
+      return interaction.reply({ content: `Removed <@&${roleId}>.`, ephemeral: true })
+    } else {
+      await member.roles.add(role)
+      return interaction.reply({ content: `Added <@&${roleId}>!`, ephemeral: true })
+    }
   }
 
   if (interaction.isChatInputCommand() && interaction.commandName === 'update') {
@@ -107,45 +114,26 @@ client.on('interactionCreate', async interaction => {
     const extra = interaction.options.getString('extra')
 
     const embedComponents = [
-      {
-        type: ComponentType.TextDisplay,
-        content: `# 📢 ${title}`
-      },
-      {
-        type: ComponentType.Separator
-      },
-      {
-        type: ComponentType.TextDisplay,
-        content: desc
-      }
+      { type: ComponentType.TextDisplay, content: `# 📢 ${title}` },
+      { type: ComponentType.Separator },
+      { type: ComponentType.TextDisplay, content: desc }
     ]
 
     if (extra) {
       embedComponents.push({ type: ComponentType.Separator })
-      embedComponents.push({
-        type: ComponentType.TextDisplay,
-        content: `### 📝 Extra Info\n${extra}`
-      })
+      embedComponents.push({ type: ComponentType.TextDisplay, content: `### 📝 Extra Info\n${extra}` })
     }
 
     embedComponents.push({ type: ComponentType.Separator })
-    embedComponents.push({
-      type: ComponentType.TextDisplay,
-      content: `*Posted by <@${interaction.user.id}> • <t:${Math.floor(Date.now() / 1000)}:F>*`
-    })
+    embedComponents.push({ type: ComponentType.TextDisplay, content: `*Posted by <@${interaction.user.id}> • <t:${Math.floor(Date.now() / 1000)}:F>*` })
 
     try {
       await interaction.reply({ content: '✅ Update posted!', ephemeral: true })
-
-      await interaction.channel.send({
+      const updateChannel = client.channels.cache.get('1491702133790343218')
+      await updateChannel.send({
         content: ping ? `<@&${PING_ROLE_ID}>` : undefined,
         flags: MessageFlags.IsComponentsV2,
-        components: [
-          {
-            type: ComponentType.Container,
-            components: embedComponents
-          }
-        ]
+        components: [{ type: ComponentType.Container, components: embedComponents }]
       })
     } catch (err) {
       console.error('Failed to post update:', err)
