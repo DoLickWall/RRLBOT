@@ -442,13 +442,12 @@ client.on('messageCreate', async message => {
   if (message.content === '!ytchannels') {
     if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
-      content: '@everyone',
       flags: MessageFlags.IsComponentsV2,
       components: [
         {
           type: ComponentType.Container,
           components: [
-            { type: ComponentType.TextDisplay, content: '# 📺 Our YouTube Channels' },
+            { type: ComponentType.TextDisplay, content: '# 📺 Our YouTube Channels\n@everyone' },
             { type: ComponentType.TextDisplay, content: '*These are our staff and mod channels!*' },
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### 🎮 Official' },
