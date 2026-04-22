@@ -489,6 +489,35 @@ client.on('messageCreate', async message => {
       ]
     })
   }
+  if (message.content === '!buildinfo') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            { type: ComponentType.TextDisplay, content: '# 🛠️ About The Build' },
+            { type: ComponentType.TextDisplay, content: '*Well, you\'re questioning it — and that\'s exactly why you came here.*' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 📅 Will there be- (YES.)' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 👥 Community & Team\nWe work closely with the community and the team at <@&1491683896776196296> & <@&1491683819923701790> to build what the community actually wants — not what we think they want.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 👕 Custom Clothing\n**Yes.** There is community requested and made custom clothing — if you\'re in the <@&1491683896776196296> group.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 🧪 Early Testing\n**Yes.** <@&1491683819923701790> gets access to early testing builds to test features after the devs feel it\'s ready to hand off.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 🚀 Release Access\n**No.** <@&1491683819923701790> does not get instant release perms. Everyone will be able to play at the same time as that group — unless the build is not yet in a public version state.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 🔒 Stability & Security\n**No Radium-style issues here.** We resolved those problems early in development. DDoS attacks and similar threats cannot affect our servers — the game runs stable.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' }
+          ]
+        }
+      ]
+    })
+  }
 })
 
 client.login(process.env.DISCORD_TOKEN)
