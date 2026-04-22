@@ -439,6 +439,32 @@ client.on('messageCreate', async message => {
       ]
     })
   }
+  if (message.content === '!ytchannels') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      content: '@everyone',
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            { type: ComponentType.TextDisplay, content: '# 📺 Our YouTube Channels' },
+            { type: ComponentType.TextDisplay, content: '*These are our staff and mod channels!*' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 🎮 Official\n[Rec Room Legacy](https://www.youtube.com/@RecRoomLegacy) — The official RRL channel' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 👥 Staff & Mod Channels' },
+            { type: ComponentType.TextDisplay, content: '📹 [Kinetic](https://www.youtube.com/@Kinetic1717)' },
+            { type: ComponentType.TextDisplay, content: '📹 [Neon](https://www.youtube.com/@-Neon-.) *(dot fix coming soon)*' },
+            { type: ComponentType.TextDisplay, content: '📹 [Raptor](https://www.youtube.com/@RaptorOnYT)' },
+            { type: ComponentType.TextDisplay, content: '📹 [wLxer](https://www.youtube.com/@wlxer_official) *(joining the server soon!)*' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '*If you are a mod or higher and have a channel, drop it in here and it will be added to the list!*' }
+          ]
+        }
+      ]
+    })
+  }
 })
 
 client.login(process.env.DISCORD_TOKEN)
