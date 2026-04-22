@@ -477,26 +477,11 @@ client.on('messageCreate', async message => {
             { type: ComponentType.TextDisplay, content: '# 🎨 Fan Art Event — Server Logo Competition!' },
             { type: ComponentType.TextDisplay, content: '*A new community event is here — and your art could become the face of RRL!*' },
             { type: ComponentType.Separator },
-            {
-              type: ComponentType.Section,
-              components: [
-                { type: ComponentType.TextDisplay, content: '### 📬 How to Enter\nSubmit your fan art in <#1491748824530550886>. Use the reference photo provided if you want to — or go totally original!' }
-              ]
-            },
+            { type: ComponentType.TextDisplay, content: '### 📬 How to Enter\nSubmit your fan art in <#1491748824530550886>. Use the reference photo provided if you want to — or go totally original!' },
             { type: ComponentType.Separator },
-            {
-              type: ComponentType.Section,
-              components: [
-                { type: ComponentType.TextDisplay, content: '### 🏆 How We Pick a Winner\nAt the end of the week, the <@&1491683379194888366> together with <@&1491683467917000795> / <@&1491686882923384933> will all vote and choose one winner together.' }
-              ]
-            },
+            { type: ComponentType.TextDisplay, content: '### 🏆 How We Pick a Winner\nAt the end of the week, the <@&1491683379194888366> together with <@&1491683467917000795> / <@&1491686882923384933> will all vote and choose one winner together.' },
             { type: ComponentType.Separator },
-            {
-              type: ComponentType.Section,
-              components: [
-                { type: ComponentType.TextDisplay, content: '### 🌟 The Prize\nThe winning piece becomes the **official RRL server logo and icon!** Your art, representing the whole community.' }
-              ]
-            },
+            { type: ComponentType.TextDisplay, content: '### 🌟 The Prize\nThe winning piece becomes the **official RRL server logo and icon!** Your art, representing the whole community.' },
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '📢 More info in <#1491702133790343218>\n*Sorry for the double ping!*' }
           ]
