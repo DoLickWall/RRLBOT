@@ -443,9 +443,9 @@ client.on('messageCreate', async message => {
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### 👥 Staff & Mod Channels' },
             { type: ComponentType.TextDisplay, content: '📹 Kinetic\nhttps://www.youtube.com/@Kinetic1717' },
-            { type: ComponentType.TextDisplay, content: '📹 Neon *(dot fix coming soon)*\nhttps://www.youtube.com/@-Neon-.' },
+            { type: ComponentType.TextDisplay, content: '📹 Neon *(dot fix coming soon)*\nhttps://www.youtube.com/@N3_0N30.' },
             { type: ComponentType.TextDisplay, content: '📹 Raptor\nhttps://www.youtube.com/@RaptorOnYT' },
-            { type: ComponentType.TextDisplay, content: '📹 wLxer *(joining the server soon!)*\nhttps://www.youtube.com/@wlxer_official' },
+            { type: ComponentType.TextDisplay, content: '📹 wLxer \nhttps://www.youtube.com/@wlxer_official' },
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '*If you are a mod or higher and have a channel, drop it in here and it will be added to the list!*' }
           ]
