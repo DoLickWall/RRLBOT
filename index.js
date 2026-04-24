@@ -443,7 +443,7 @@ client.on('messageCreate', async message => {
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### 👥 Staff & Mod Channels' },
             { type: ComponentType.TextDisplay, content: '📹 Kinetic\nhttps://www.youtube.com/@Kinetic1717' },
-            { type: ComponentType.TextDisplay, content: '📹 Neon\nhttps://www.youtube.com/@N3_0N30.' },
+            { type: ComponentType.TextDisplay, content: '📹 Neon\nhttps://www.youtube.com/@N3_0N30' },
             { type: ComponentType.TextDisplay, content: '📹 Raptor\nhttps://www.youtube.com/@RaptorOnYT' },
             { type: ComponentType.TextDisplay, content: '📹 wLxer \nhttps://www.youtube.com/@wlxer_official' },
             { type: ComponentType.Separator },
