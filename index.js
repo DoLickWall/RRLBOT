@@ -61,7 +61,9 @@ client.on('interactionCreate', async interaction => {
     const roleMap = {
       role_tag: '1495624606730682428',
       role_pings: '1495670066203590796',
-      verify_member: '1491684391066537984'
+      verify_member: '1491684391066537984',
+      role_vr: '1497419431612252240',
+      role_screenmode: '1497419559878262966'
     }
 
     const roleId = roleMap[interaction.customId]
@@ -239,7 +241,7 @@ client.on('messageCreate', async message => {
     })
   }
 
-  if (message.content === '!roleing') {
+if (message.content === '!roleing') {
     if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
       flags: MessageFlags.IsComponentsV2,
@@ -259,13 +261,24 @@ client.on('messageCreate', async message => {
               type: ComponentType.Section,
               components: [{ type: ComponentType.TextDisplay, content: '### <@&1495670066203590796>\nGet pinged when something is posted in <#1491702133790343218>.' }],
               accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_pings' }
+            },
+            { type: ComponentType.Separator },
+            {
+              type: ComponentType.Section,
+              components: [{ type: ComponentType.TextDisplay, content: '### <@&1497419431612252240>\nSelect this if you play in VR mode.' }],
+              accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_vr' }
+            },
+            { type: ComponentType.Separator },
+            {
+              type: ComponentType.Section,
+              components: [{ type: ComponentType.TextDisplay, content: '### <@&1497419559878262966>\nSelect this if you play in screen mode.' }],
+              accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_screenmode' }
             }
           ]
         }
       ]
     })
   }
-
   if (message.content === '!sendrules') {
     if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
