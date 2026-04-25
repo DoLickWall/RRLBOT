@@ -80,7 +80,7 @@ client.on('interactionCreate', async interaction => {
       }
 
       const accountAge = Date.now() - interaction.user.createdTimestamp
-      const oneDay = 24 * 60 * 60 * 1000
+      const oneDay = 3 * 24 * 60 * 60 * 1000
 
       if (accountAge < oneDay) {
         return interaction.reply({
@@ -412,27 +412,16 @@ if (message.content === '!roleing') {
         {
           type: ComponentType.Container,
           components: [
-            {
-              type: ComponentType.TextDisplay,
-              content: '# ✅ Verification'
-            },
-            {
-              type: ComponentType.Separator
-            },
-            {
-              type: ComponentType.TextDisplay,
-              content: 'Welcome to the server! Click the button below to verify yourself and gain access to the rest of the server.'
-            },
+            { type: ComponentType.TextDisplay, content: '# ✅ Verification' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: 'Welcome to the server! Click the button below to verify yourself and gain access to the rest of the server.' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### ℹ️ Requirements\n> Your Discord account must be **older than 3 days** to verify.\n> If your account is too new, you will need to wait before verifying.' },
+            { type: ComponentType.Separator },
             {
               type: ComponentType.ActionRow,
               components: [
-                {
-                  type: ComponentType.Button,
-                  label: 'Verify Me',
-                  style: ButtonStyle.Success,
-                  custom_id: 'verify_member',
-                  emoji: { name: '✅' }
-                }
+                { type: ComponentType.Button, label: 'Verify Me', style: ButtonStyle.Success, custom_id: 'verify_member', emoji: { name: '✅' } }
               ]
             }
           ]
