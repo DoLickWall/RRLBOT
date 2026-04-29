@@ -316,6 +316,39 @@ if (message.content === '!roleing') {
       ]
     })
   }
+  if (message.content === '!formsupport') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            {
+              type: ComponentType.Section,
+              components: [
+                {
+                  type: ComponentType.TextDisplay,
+                  content: '# 🆘 Support Role Application'
+                },
+                {
+                  type: ComponentType.TextDisplay,
+                  content: 'If you want to be apart of <@&1491683617183760404>, fill out this form.\nStaff will get to you shortly.'
+                }
+              ],
+              accessory: {
+                type: ComponentType.Button,
+                label: 'Apply Now',
+                style: ButtonStyle.Link,
+                url: 'https://forms.gle/GLV1hYqXK4iPd5Kz8',
+                emoji: { name: '📋' }
+              }
+            }
+          ]
+        }
+      ]
+    })
+  }
   if (message.content === '!formlab') {
     if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
     await message.channel.send({
