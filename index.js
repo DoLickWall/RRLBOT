@@ -420,7 +420,7 @@ if (message.content === '!roleing') {
               components: [
                 {
                   type: ComponentType.TextDisplay,
-                  content: '# 🛡️ Volunteer Moderator Application [CLOSED]'
+                  content: '# 🛡️ Volunteer Moderator Application'
                 },
                 {
                   type: ComponentType.TextDisplay,
