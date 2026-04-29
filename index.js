@@ -329,7 +329,7 @@ if (message.content === '!roleing') {
               components: [
                 {
                   type: ComponentType.TextDisplay,
-                  content: '# 🆘 Support Role Application'
+                  content: '# 🆘 Support/Bugcrowd Application'
                 },
                 {
                   type: ComponentType.TextDisplay,
@@ -340,7 +340,7 @@ if (message.content === '!roleing') {
                 type: ComponentType.Button,
                 label: 'Apply Now',
                 style: ButtonStyle.Link,
-                url: 'https://forms.gle/GLV1hYqXK4iPd5Kz8',
+                url: 'https://forms.gle/jUpiXKnmgBHjZw5N7',
                 emoji: { name: '📋' }
               }
             }
