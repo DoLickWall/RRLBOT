@@ -144,6 +144,39 @@ client.on('interactionCreate', async interaction => {
   }
 })
 
+client.on('guildMemberAdd', async member => {
+  const welcomeChannel = client.channels.cache.get('1466107491724038312')
+  if (!welcomeChannel) return
+
+  const createdAt = Math.floor(member.user.createdTimestamp / 1000)
+
+  await welcomeChannel.send({
+    flags: MessageFlags.IsComponentsV2,
+    components: [
+      {
+        type: ComponentType.Container,
+        components: [
+          {
+            type: ComponentType.Section,
+            components: [
+              { type: ComponentType.TextDisplay, content: `# 👋 Welcome to Rec Room Legacy!` },
+              { type: ComponentType.TextDisplay, content: `Hey <@${member.user.id}>, welcome to the server! We're glad to have you here.` },
+              { type: ComponentType.Separator },
+              { type: ComponentType.TextDisplay, content: `### 👤 ${member.user.username}\n🗓️ Account Created: <t:${createdAt}:D>\n📅 Joined: <t:${Math.floor(Date.now() / 1000)}:D>` }
+            ],
+            accessory: {
+              type: ComponentType.Thumbnail,
+              media: {
+                url: member.user.displayAvatarURL({ size: 256 })
+              }
+            }
+          }
+        ]
+      }
+    ]
+  })
+})
+
 client.on('messageCreate', async message => {
   if (message.author.bot) return
 
@@ -555,6 +588,38 @@ if (message.content === '!roleing') {
             { type: ComponentType.TextDisplay, content: '### ℹ️ Build date\nThe build date for RRLs recroom build is **June 1st 2022**' }
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' }
+          ]
+        }
+      ]
+    })
+  }
+  if (message.content === '!testwelcome') {
+    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
+    
+    const member = message.member
+    const createdAt = Math.floor(member.user.createdTimestamp / 1000)
+
+    await message.channel.send({
+      flags: MessageFlags.IsComponentsV2,
+      components: [
+        {
+          type: ComponentType.Container,
+          components: [
+            {
+              type: ComponentType.Section,
+              components: [
+                { type: ComponentType.TextDisplay, content: `# 👋 Welcome to Rec Room Legacy!` },
+                { type: ComponentType.TextDisplay, content: `Hey <@${member.user.id}>, welcome to the server! We're glad to have you here.` },
+                { type: ComponentType.Separator },
+                { type: ComponentType.TextDisplay, content: `### 👤 ${member.user.username}\n🗓️ Account Created: <t:${createdAt}:D>\n📅 Joined: <t:${Math.floor(Date.now() / 1000)}:D>` }
+              ],
+              accessory: {
+                type: ComponentType.Thumbnail,
+                media: {
+                  url: member.user.displayAvatarURL({ size: 256 })
+                }
+              }
+            }
           ]
         }
       ]
