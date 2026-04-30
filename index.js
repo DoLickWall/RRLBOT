@@ -552,9 +552,9 @@ if (message.content === '!roleing') {
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### 🔒 Stability & Security\n**No Radium-style issues here.** We resolved those problems early in development. DDoS attacks and similar threats cannot affect our servers — the game runs stable.' },
             { type: ComponentType.Separator },
-            { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' },
+            { type: ComponentType.TextDisplay, content: '### ℹ️ Build date\nThe build date for RRLs recroom build is **June 1st 2022**' }
             { type: ComponentType.Separator },
-            { type: ComponentType.TextDisplay, content: '### 🆚 Build date\nThe build date for RRLs recroom build is **June 1st 2022**' }
+            { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' }
           ]
         }
       ]
