@@ -275,6 +275,7 @@ if (message.content === '!roleing') {
               components: [{ type: ComponentType.TextDisplay, content: '### <@&1497419559878262966>\nSelect this if you play in screen mode.' }],
               accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_screenmode' }
             },
+            { type: ComponentType.Separator },
             {
               type: ComponentType.Section,
               components: [{ type: ComponentType.TextDisplay, content: '### <@&1499357606228136008>\nSelect this if you want to get pinged for offtopic stuff.' }],
