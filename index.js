@@ -63,7 +63,8 @@ client.on('interactionCreate', async interaction => {
       role_pings: '1495670066203590796',
       verify_member: '1491684391066537984',
       role_vr: '1497419431612252240',
-      role_screenmode: '1497419559878262966'
+      role_screenmode: '1497419559878262966',
+      role_offtopic: '1499357606228136008'
     }
 
     const roleId = roleMap[interaction.customId]
@@ -273,6 +274,11 @@ if (message.content === '!roleing') {
               type: ComponentType.Section,
               components: [{ type: ComponentType.TextDisplay, content: '### <@&1497419559878262966>\nSelect this if you play in screen mode.' }],
               accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_screenmode' }
+            },
+            {
+              type: ComponentType.Section,
+              components: [{ type: ComponentType.TextDisplay, content: '### <@&1499357606228136008>\nSelect this if you want to get pinged for offtopic stuff.' }],
+              accessory: { type: ComponentType.Button, label: 'Get Role', style: ButtonStyle.Primary, custom_id: 'role_offtopic' }
             }
           ]
         }
@@ -377,31 +383,6 @@ if (message.content === '!roleing') {
                 emoji: { name: '📋' }
               }
             }
-          ]
-        }
-      ]
-    })
-  }
-  if (message.content === '!formmod') {
-    if (!hasStaffRole(message)) return message.reply({ content: 'You do not have permission to use this command.' })
-    await message.channel.send({
-      flags: MessageFlags.IsComponentsV2,
-      components: [
-        {
-          type: ComponentType.Container,
-          components: [
-            {
-              type: ComponentType.TextDisplay,
-              content: '# 🛡️ Volunteer Moderator Application [CLOSED]'
-            },
-            {
-              type: ComponentType.Separator
-            },
-            {
-              type: ComponentType.TextDisplay,
-              content: 'If you want to be apart of <@&1491683467917000795>, fill out this form.\nStaff will get to you shortly.'
-            }
-            
           ]
         }
       ]
@@ -570,7 +551,9 @@ if (message.content === '!roleing') {
             { type: ComponentType.Separator },
             { type: ComponentType.TextDisplay, content: '### 🔒 Stability & Security\n**No Radium-style issues here.** We resolved those problems early in development. DDoS attacks and similar threats cannot affect our servers — the game runs stable.' },
             { type: ComponentType.Separator },
-            { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' }
+            { type: ComponentType.TextDisplay, content: '### ❓ Still Have Questions?\nFeel free to ping <@370951912696053760> or <@1290397084154859564> and they\'ll get back to you!' },
+            { type: ComponentType.Separator },
+            { type: ComponentType.TextDisplay, content: '### 🆚 Build date\nThe build date for RRLs recroom build is **June 1st 2022**' }
           ]
         }
       ]
